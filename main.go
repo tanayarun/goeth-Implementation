@@ -4,11 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	//"math/big"
 
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 var infuraURL = "https://mainnet.infura.io/v3/a54d875e40a344ef9da422b50ca4d226"
+var address = "0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97"
 
 func main() {
 	client, err := ethclient.DialContext(context.Background(), infuraURL)
@@ -23,4 +26,10 @@ func main() {
 	}
 
 	fmt.Println("Latest block number:", block.Number())
+
+	balance, err := client.BalanceAt(context.Background(), common.HexToAddress(address) , nil)
+	if err != nil {
+		log.Fatalf("Error getting balance: %v", err)
+	}
+	fmt.Println("Balance: ", balance)
 }
